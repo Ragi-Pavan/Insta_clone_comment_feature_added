@@ -85,7 +85,7 @@ class UserProfile extends Component {
       <div className="main-for-profile-user">
         <div className="container-for-overall">
           <div className="profle-container">
-            <p className="nameforuser">{userName}</p>
+            <h1 className="nameforuser">{userName}</h1>
             <div className="profile-for-user-specific">
               <img
                 className="profile-for-user"
@@ -116,11 +116,11 @@ class UserProfile extends Component {
               <img className="profile-for-user" src={profilePic} alt={userId} />
             </div>
             <div className="clear-info-for-lg">
-              <p className="nameforuser">{userName}</p>
+              <h1 className="nameforuser">{userName}</h1>
               <div className="ínfo-for-lg">
                 <div className="posts-info-container">
                   <p className="posts-count">{postsCount}</p>
-                  <p className="posta">posts</p>
+                  <h1 className="posta">posts</h1>
                 </div>
                 <div className="posts-info-container">
                   <p className="posts-count">{followersCount}</p>
@@ -156,7 +156,7 @@ class UserProfile extends Component {
           <div className="posts-container">
             <div className="grids">
               <BsGrid3X3 className="grid" />
-              <p className="posts-para">Posts</p>
+              <h1 className="posts-para">Posts</h1>
             </div>
 
             {lenghtofPosts === 0 ? (
@@ -166,7 +166,7 @@ class UserProfile extends Component {
                     <BiCamera />
                   </p>
                 </div>
-                <p className="npy">No Posts Yet</p>
+                <h1 className="npy">No Posts</h1>
               </div>
             ) : (
               <div>
@@ -190,14 +190,10 @@ class UserProfile extends Component {
   }
 
   renderLoader = () => (
-    <div className="loader-container-home" data-testid="loader">
+    <div className="loader-container-home" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
-
-  clickedonretry = () => {
-    this.getUserProfileData()
-  }
 
   renderFailureView = () => (
     <div className="failure-container">
@@ -212,7 +208,7 @@ class UserProfile extends Component {
       <button
         type="button"
         className="retryButton"
-        onClick={this.clickedonretry}
+        onClick={this.getUserProfileData()}
       >
         Try Again
       </button>

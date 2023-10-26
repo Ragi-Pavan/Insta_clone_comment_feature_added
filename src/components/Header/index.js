@@ -71,7 +71,7 @@ class Header extends Component {
 
               <h1 className="heading">Insta Share</h1>
             </div>
-            <div className="humberber-container" data-testid="Humberger">
+            <div className="humberber-container" testid="Humberger">
               <p className="humber-button" onClick={this.clikedOnHumberberg}>
                 <GiHamburgerMenu />
               </p>
@@ -122,7 +122,7 @@ class Header extends Component {
                 type="button"
                 className="wrong-button"
                 onClick={this.clikedOnCloseHumberberg}
-                data-testid="searchIcon"
+                testid="searchIcon"
               >
                 <IoCloseCircle />
               </button>
@@ -130,7 +130,7 @@ class Header extends Component {
           )}
           {showSearchBar && (
             <div className="search-Out">
-              <div className="search-container-for-small" data-testid="search">
+              <div className="search-container-for-small" testid="search">
                 <input
                   type="search"
                   className="input-search"
@@ -141,7 +141,7 @@ class Header extends Component {
                 <p
                   className="search-icon"
                   onClick={this.clikedonSearchIcon}
-                  data-testid="searchIcon"
+                  testid="searchIcon"
                 >
                   <FaSearch />
                 </p>
@@ -173,7 +173,7 @@ class Header extends Component {
                 <p
                   className="search-icon"
                   onClick={this.clikedonSearchIcon}
-                  data-testid="searchIcon"
+                  testid="searchIcon"
                 >
                   <FaSearch />
                 </p>

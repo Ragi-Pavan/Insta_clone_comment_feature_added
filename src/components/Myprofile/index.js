@@ -79,7 +79,6 @@ class MyProfile extends Component {
       userName,
     } = userData
 
-    const lenghtofPosts = posts.length
     return (
       <div className="main-for-profile-user">
         <div className="container-for-overall">
@@ -93,7 +92,7 @@ class MyProfile extends Component {
               />
               <div className="posts-info-container">
                 <p className="posts-count">{userData.postsCount}</p>
-                <p className="posta">posts</p>
+                <h1 className="posta">posts</h1>
               </div>
               <div className="posts-info-container">
                 <p className="posts-count">{followersCount}</p>
@@ -119,7 +118,7 @@ class MyProfile extends Component {
               <div className="ínfo-for-lg">
                 <div className="posts-info-container">
                   <p className="posts-count">{postsCount}</p>
-                  <p className="posta">posts</p>
+                  <h1 className="posta">posts</h1>
                 </div>
                 <div className="posts-info-container">
                   <p className="posts-count">{followersCount}</p>
@@ -157,16 +156,7 @@ class MyProfile extends Component {
               <h1 className="posts-para">Posts</h1>
             </div>
 
-            {lenghtofPosts === 0 ? (
-              <div className="no-posts-view">
-                <div className="iconx">
-                  <p className="no-p-icon">
-                    <BiCamera />
-                  </p>
-                </div>
-                <p className="npy">No Posts Yet</p>
-              </div>
-            ) : (
+            {posts.length > 0 ? (
               <div>
                 <ul className="ul-for-post">
                   {posts.map(each => (
@@ -180,6 +170,15 @@ class MyProfile extends Component {
                   ))}
                 </ul>
               </div>
+            ) : (
+              <div className="no-posts-view">
+                <div className="iconx">
+                  <p className="no-p-icon">
+                    <BiCamera />
+                  </p>
+                </div>
+                <h1 className="npy">No Posts</h1>
+              </div>
             )}
           </div>
         </div>
@@ -188,7 +187,7 @@ class MyProfile extends Component {
   }
 
   renderLoader = () => (
-    <div className="loader-container-home" data-testid="loader">
+    <div className="loader-container-home" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -206,7 +205,7 @@ class MyProfile extends Component {
       <button
         type="button"
         className="retryButton"
-        onClick={this.clickedonretry}
+        onClick={this.getUserProfileData()}
       >
         Try Again
       </button>

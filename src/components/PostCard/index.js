@@ -63,22 +63,22 @@ class PostCard extends Component {
     return (
       <li key={userId} className="list-item">
         <div className="larger-one">
-          <Link to={`/users/${userId}`} className="link">
-            <div className="profilePicContainer">
-              <img
-                src={profilePic}
-                alt="post author profile"
-                className="profilepic"
-              />
+          <div className="profilePicContainer">
+            <img
+              src={profilePic}
+              alt="post author profile"
+              className="profilepic"
+            />
+            <Link to={`/users/${userId}`} className="link">
               <p className="user-name">{userName}</p>
-            </div>
-          </Link>
+            </Link>
+          </div>
 
           <div>
             <img src={imageUrl} alt="post" className="Image" />
           </div>
           <div className="informaton">
-            <div className="icons-container" data-testid="like">
+            <div className="icons-container">
               {Islike ? (
                 <FcLike
                   testid="unLikeIcon"

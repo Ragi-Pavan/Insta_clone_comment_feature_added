@@ -6,8 +6,14 @@ import Slider from 'react-slick'
 
 import Loader from 'react-loader-spinner'
 
-/* Add css to your project */
 import './index.css'
+
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+  inProgress: 'IN_PROGRESS',
+}
 
 const settings = {
   dots: false,
@@ -43,7 +49,7 @@ const settings = {
 class ReactSlick extends Component {
   state = {
     storiesList: [],
-    isLoading: true,
+    apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount() {
@@ -51,6 +57,7 @@ class ReactSlick extends Component {
   }
 
   getStoriesData = async () => {
+    this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
     const apiUrl = `https://apis.ccbp.in/insta-share/stories`
     const options = {
@@ -69,8 +76,10 @@ class ReactSlick extends Component {
       }))
       this.setState({
         storiesList: updatedData,
-        isLoading: false,
+        apiStatus: apiStatusConstants.success,
       })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
     }
   }
 
@@ -95,20 +104,51 @@ class ReactSlick extends Component {
     )
   }
 
-  renderLoadingView = () => (
-    <div className="loader-container" data-testid="loader">
+  renderLoadingViewfoSlider = () => (
+    <div className="loader-container" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
 
+  renderFailureView = () => (
+    <div className="failure-container">
+      <div>
+        <img
+          className="eoorr-image"
+          src="https://res.cloudinary.com/dytgpb4j5/image/upload/v1698141049/rqosmibopf2zr2mpi374.jpg"
+          alt="failure view"
+        />
+      </div>
+      <p className="err-msg-server">Something went wrong. Please try again</p>
+      <button
+        type="button"
+        className="retryButton"
+        onClick={this.getStoriesData()}
+      >
+        Try again
+      </button>
+    </div>
+  )
+
+  renderViewBasedonApi = () => {
+    const {apiStatus} = this.state
+    switch (apiStatus) {
+      case apiStatusConstants.success:
+        return this.renderSlider()
+      case apiStatusConstants.failure:
+        return this.renderFailureView()
+      case apiStatusConstants.inProgress:
+        return this.renderLoadingViewfoSlider()
+      default:
+        return null
+    }
+  }
+
   render() {
-    const {isLoading} = this.state
     return (
       <div>
         <div className="main-container">
-          <div className="slick-container">
-            {isLoading ? this.renderLoadingView() : this.renderSlider()}
-          </div>
+          <div className="slick-container">{this.renderViewBasedonApi()}</div>
         </div>
         <hr />
       </div>

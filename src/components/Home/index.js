@@ -23,6 +23,8 @@ class Home extends Component {
   state = {
     postsData: [],
     apiStatus: apiStatusConstants.initial,
+    showHeaingforSearchResult: false,
+    showSlick: true,
   }
 
   componentDidMount() {
@@ -99,9 +101,13 @@ class Home extends Component {
       this.setState({
         postsData: updatedData,
         apiStatus: apiStatusConstants.success,
+        showHeaingforSearchResult: false,
       })
     } else {
-      this.setState({apiStatus: apiStatusConstants.failure})
+      this.setState({
+        apiStatus: apiStatusConstants.failure,
+        showHeaingforSearchResult: false,
+      })
     }
   }
 
@@ -123,7 +129,6 @@ class Home extends Component {
   commentAdded = (com, id) => {
     const {postsData} = this.state
     const value = postsData.find(each => each.postId === id)
-
     const newComment = {
       comment: com,
       user_id: value.comments.length + 1,
@@ -145,11 +150,14 @@ class Home extends Component {
   }
 
   renderPostsView = () => {
-    const {postsData} = this.state
+    const {postsData, showHeaingforSearchResult, showSlick} = this.state
     if (postsData.length >= 1) {
       return (
         <div>
-          <ReactSlick />
+          {showSlick && <ReactSlick />}
+          {showHeaingforSearchResult && (
+            <h1 className="heading-for-search">Search Results</h1>
+          )}
           <ul className="ul-for-posts">
             {postsData.map(each => (
               <PostCard
@@ -169,6 +177,7 @@ class Home extends Component {
 
   searchNotFoundView = () => (
     <div className="search-not-found">
+      <h1 className="heading-for-search">Search Results</h1>
       <div>
         <img
           className="no-search-image"
@@ -184,7 +193,7 @@ class Home extends Component {
   )
 
   renderLoadingView = () => (
-    <div className="loader-container-home" data-testid="loader">
+    <div className="loader-container-home" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -200,6 +209,12 @@ class Home extends Component {
       method: 'GET',
     }
     const response = await fetch(apiUrl, options)
+    console.log(response)
+    if (value !== '') {
+      this.setState({showHeaingforSearchResult: true, showSlick: false})
+    } else {
+      this.setState({showHeaingforSearchResult: false, showSlick: true})
+    }
     if (response.ok === true) {
       const data = await response.json()
       const NewData = data.posts.map(each => ({
@@ -213,9 +228,15 @@ class Home extends Component {
         likesCount: each.likes_count,
         comments: each.comments,
       }))
-      this.setState({postsData: NewData, apiStatus: apiStatusConstants.success})
-    } else {
-      this.setState({apiStatus: apiStatusConstants.failure})
+      this.setState({
+        postsData: NewData,
+        apiStatus: apiStatusConstants.success,
+      })
+    } else if (response.status === 400) {
+      this.setState({
+        apiStatus: apiStatusConstants.failure,
+        showHeaingforSearchResult: false,
+      })
     }
   }
 
